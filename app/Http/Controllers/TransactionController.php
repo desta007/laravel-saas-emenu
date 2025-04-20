@@ -70,6 +70,26 @@ class TransactionController extends Controller
 
         if ($request->payment_method == 'cash') {
             return redirect()->route('success', ['username' => $store->username, 'order_id' => $transaction->code]);
+        } else {
+            //
+            \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+            \Midtrans\Config::$isProduction = config('midtrans.isProduction');
+            \Midtrans\Config::$isSanitized = config('midtrans.isSanitized');
+            \Midtrans\Config::$is3ds = config('midtrans.is3ds');
+
+            $params = [
+                'transaction_details' => [
+                    'order_id' => $transaction->code,
+                    'gross_amount' => $totalPrice
+                ],
+                'customer_details' => [
+                    'name' => $request->name,
+                    'phone' => $request->phone_number
+                ]
+            ];
+
+            $paymentUrl = \Midtrans\Snap::createTransaction($params)->redirect_url;
+            return redirect($paymentUrl);
         }
     }
 
