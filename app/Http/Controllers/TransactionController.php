@@ -85,6 +85,9 @@ class TransactionController extends Controller
                 'customer_details' => [
                     'name' => $request->name,
                     'phone' => $request->phone_number
+                ],
+                'callbacks' => [
+                    'finish' => route('success', ['order_id' => $transaction->code])
                 ]
             ];
 
