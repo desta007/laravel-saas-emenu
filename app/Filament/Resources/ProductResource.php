@@ -96,7 +96,7 @@ class ProductResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->label('Nama Menu')
                     ->required(),
-                Forms\Components\TextArea::make('description')
+                Forms\Components\Textarea::make('description')
                     ->label('Deskripsi Menu')
                     ->required(),
                 Forms\Components\TextInput::make('price')
